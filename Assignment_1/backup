@@ -1,0 +1,59 @@
+#!/bin/bash
+
+datename=`date | tr -d ":[:space:]" `
+
+	if [ $1 == "-t" ]; then
+		#using target-directory
+		target=$2
+		if [ ! -d $target ]; then    #check if given directory is valid
+			echo Invalid directory
+		else
+			#load all the arguments into an array
+			declare -a array
+			for name in $*; do
+				array=("${array[@]}" $name)
+			done
+
+			filename="$target/$datename"
+			mkdir $filename
+
+			for suffix in ${array[@]:2}; do
+			#copy the files into the new folder
+				cp $target/*.$suffix $filename
+				echo "copied $suffix files"
+			done
+
+			#create zip file
+			cd $filename
+			tar -cf archive.tar *
+			echo "tar file created $filename/archive.tar"
+
+			for remove in ${array[@]:2}; do
+			#delete all source file
+				rm *.$remove
+			done
+			echo source files deleted
+		fi
+	else
+		#default directory
+		declare -a array
+		for name in $*; do
+			array=("${array[@]}" $name)
+		done
+
+		mkdir $datename
+
+		for suffix in ${array[@]}; do
+			cp *.$suffix $datename
+			echo "copied $suffix files"
+		done
+
+		cd $datename
+		tar -cf archive.tar *
+		echo "tar file created $pwd/archive.tar"
+
+		for remove in ${array[@]}; do
+			rm *.$remove
+		done
+		echo source files deleted
+	fi
