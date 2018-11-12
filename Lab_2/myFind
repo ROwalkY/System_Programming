@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+if [ $# != 3 ]; then
+  echo "Correct call: $0 <target-dir> <startChar> <length>"
+  exit;
+fi
+
+count=0
+
+for name in `ls $1` ; do
+  if [[ "`echo $name | cut -c 1`" == $2  && ${#name} == $3 ]]; then
+     let "count=$count + 1" 
+  fi
+done
+
+echo There are $count filenames in $1 with names of length $3 that start with $2 

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+if [ $# == 0 ]; then
+	echo "Correct call: $0 <suffix-list...>"
+   	exit;
+fi
+
+for ext in $*; do
+   echo $ext
+   for file in `ls *.$ext`; do
+       echo gzip $file
+       gzip -k  $file
+   done
+done
