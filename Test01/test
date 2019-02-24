@@ -1,0 +1,22 @@
+#!/bin/bash
+
+trap '{
+
+	echo Ctrl-c Detected
+
+}' INT
+
+read File
+
+case $File in
+"fruit" )
+	echo $File
+	;;
+"vege" )
+	echo $File
+	;;
+	*)
+
+	echo this is switch case
+	esac
+

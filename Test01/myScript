@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+	echo "Correct command $0 <extension> <size>"
+else
+	for files in `ls *.$1`; do
+		if [[ -f $files  && `more $files | wc -c` > $2 ]]; then
+			echo $files
+		fi
+	done
+fi
+
